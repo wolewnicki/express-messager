@@ -1,12 +1,30 @@
-import { Pool, QueryResult } from 'pg'
+import { Pool, QueryConfig, QueryResult } from 'pg'
 
-export const getChannel = (pool: Pool, selectString: string): void => { 
+export const getChannel = (pool: Pool, selectString: QueryConfig): void => { 
     pool.query(selectString, (err, res) => {
         console.log(err, res.rows)
+        console.log(selectString.values)
 })}
 
-export const insertMessage = (pool: Pool, insertString: string ) => {
+// export const getChannel = (pool: Pool, selectString: QueryConfig): void => {
+//     queryPool(pool, selectString)
+// }
+
+export const insertMessage = (pool: Pool, insertString: QueryConfig ) => {
     pool.query(insertString, (err: Error, res: QueryResult<any>) => {
         console.log(err, res)
+        console.log(insertString)
     })
 }
+
+export const queryConfit = (pool: Pool, query: QueryConfig) => {
+    pool.query(query, (err: Error, res: QueryResult<any>) => {
+        console.log(err, res.rows)
+        console.log(query)
+    })
+}
+
+const queryPool = (pool: Pool, selectString: QueryConfig) => { pool.query(selectString, (err: Error, res: QueryResult<any>) => {
+    console.log(err, res.rows)
+})}
+

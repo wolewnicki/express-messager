@@ -1,7 +1,6 @@
 import express, { Request, Response } from 'express'
 import { Pool } from 'pg'
 import { DataController } from './controllers/getData'
-import { WelcomeController } from './controllers/welcomeConstroller'
 require('dotenv').config()
 
 const app: express.Application = express()
@@ -16,5 +15,4 @@ app.listen(port, ()  => {
 })
 
 
-app.use('/test', WelcomeController)
 app.use('/v1', DataController)

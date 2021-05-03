@@ -1,15 +1,31 @@
+import { QueryConfig, QueryResult } from "pg"
 
-export const selectString = (table: string) => {
-    return `SELECT * FROM ${table}`
+export const selectString = (table: string): QueryConfig => {
+    return {
+    text:
+        `SELECT * FROM $1`,
+    values: [`channel`]
+}
 }
 
-export const insertString = (body: string) => {
-    return `INSERT INTO message
-    VALUES (
+export const insertString = (body: string): QueryConfig => {
+    return {
+    text:
+        `INSERT INTO message
+        VALUES (
         1, 
-        '${body}', 
+        $1, 
         'nico',
         '2021-05-02',
         1
-    )`
+    )`,
+    values: [body]
+    }
+}
+
+export const test: QueryConfig = {
+    text: 'SELECT id FROM message',
+    types: {
+        getTypeParser: () => (val: number) => {return val.toString()}
+    }
 }
