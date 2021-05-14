@@ -3,8 +3,7 @@ import { QueryConfig, QueryResult } from "pg"
 export const selectString = (table: string): QueryConfig => {
     return {
     text:
-        `SELECT * FROM $1`,
-    values: [`channel`]
+        `SELECT * FROM ${table}`,
 }
 }
 

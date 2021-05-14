@@ -1,14 +1,14 @@
 import { Pool, QueryConfig, QueryResult } from 'pg'
 
-export const getChannel = (pool: Pool, selectString: QueryConfig): void => { 
-    pool.query(selectString, (err, res) => {
-        console.log(err, res.rows)
-        console.log(selectString.values)
-})}
+// export const getChannel = (pool: Pool, selectString: QueryConfig): void => { 
+//     pool.query(selectString, (err, res) => {
+//         console.log(err, res.rows)
+//         console.log(selectString.values)
+// })}
 
-// export const getChannel = (pool: Pool, selectString: QueryConfig): void => {
-//     queryPool(pool, selectString)
-// }
+export const getChannel = (pool: Pool, selectString: QueryConfig): void => {
+    queryPool(pool, selectString)
+}
 
 export const insertMessage = (pool: Pool, insertString: QueryConfig ) => {
     pool.query(insertString, (err: Error, res: QueryResult<any>) => {
@@ -25,6 +25,7 @@ export const queryConfit = (pool: Pool, query: QueryConfig) => {
 }
 
 const queryPool = (pool: Pool, selectString: QueryConfig) => { pool.query(selectString, (err: Error, res: QueryResult<any>) => {
-    console.log(err, res.rows)
+    console.log(res.rows)
 })}
+
 

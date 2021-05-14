@@ -7,8 +7,7 @@ import { createRoute } from '../routes/routeDefinition'
 const router: Router = Router()
 
 router.get('/getChannel', (req: Request, res: Response) => {
-    getChannel(appPool, selectString('channel'))
-    res.send('test')
+    res.send(getChannel(appPool, selectString('channel')))
 })
 
 router.get('/getMessage', (req: Request, res: Response) => {
