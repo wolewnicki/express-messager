@@ -3,6 +3,7 @@ import { getChannel, insertMessage, queryConfit } from '../database/pg'
 import { appPool } from '../app'
 import { insertString, selectString, test, } from '../queries/queries'
 import { createRoute } from '../routes/routeDefinition'
+import { IData, Test } from '../types/functions'
 
 const router: Router = Router()
 
@@ -24,8 +25,9 @@ router.get('/idToString', (req: Request, res: Response) => {
     queryConfit(appPool, test)
 })
 
-createRoute(router, '/test', getChannel, selectString('channel'))
+createRoute(router, '/test', (getChannel(appPool, selectString('message'))) )
 // createRoute(router, '/test', () => getChannel(appPool, selectString('message')) )
 
 
 export const DataController: Router = router
+

@@ -1,4 +1,6 @@
 import { Pool, QueryConfig, QueryResult } from 'pg'
+import { emitter } from '../app'
+import { Channel } from '../types/functions'
 
 // export const getChannel = (pool: Pool, selectString: QueryConfig): void => { 
 //     pool.query(selectString, (err, res) => {
@@ -24,8 +26,8 @@ export const queryConfit = (pool: Pool, query: QueryConfig) => {
     })
 }
 
-const queryPool = (pool: Pool, selectString: QueryConfig) => { pool.query(selectString, (err: Error, res: QueryResult<any>) => {
-    console.log(res.rows)
+const queryPool = (pool: Pool, selectString: QueryConfig) => { pool.query(selectString, (err: Error, res: QueryResult<Channel>) => {
+    emitter.emit('pg', res.rows)
 })}
 
 
