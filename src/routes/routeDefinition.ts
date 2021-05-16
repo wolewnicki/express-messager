@@ -1,7 +1,7 @@
 import { Request, Response, Router } from "express"
-import { Pool, QueryConfig, QueryResult } from "pg"
-import { PoolString } from "../types/functions"
-import { appPool } from '../app'
+import { Events, Pool, QueryConfig, QueryResult } from "pg"
+import { Channel, PoolString } from "../types/functions"
+import { appPool, emitter } from '../app'
 
 // export const createRoute = (router: Router, route: string, func: PoolString, selectString: QueryConfig  ) => {
 //     router.get(route, (req: Request, res: Response) => {
@@ -10,8 +10,14 @@ import { appPool } from '../app'
 //     })
 // }
 
-export const createRoute = <T> (router: Router, route: string, data: T  ) => {
+// export const createRoute = <T> (router: Router, route: string, data: T  ) => {
+//     router.get(route, (req: Request, res: Response) => {
+//         res.send(data)
+//     })
+// }
+
+export const createRoute  = (router: Router, route: string, channel: Channel) => {
     router.get(route, (req: Request, res: Response) => {
-        res.send(data)
+        res.send(channel)
     })
 }

@@ -1,20 +1,16 @@
 import { Router, Request, Response } from 'express' 
 import { getChannel, insertMessage, queryConfit } from '../database/pg'
-import { appPool } from '../app'
+import { appPool, emitter } from '../app'
 import { insertString, selectString, test, } from '../queries/queries'
+import { Channel, IData, Test } from '../types/functions'
 import { createRoute } from '../routes/routeDefinition'
-import { IData, Test } from '../types/functions'
 
 const router: Router = Router()
 
-router.get('/getChannel', (req: Request, res: Response) => {
-    res.send(getChannel(appPool, selectString('channel')))
-})
-
-router.get('/getMessage', (req: Request, res: Response) => {
-    getChannel(appPool, selectString('message'))
-    res.send('message')
-})
+const message = {
+    user : 'will',
+    body : 'i am test'
+}
 
 router.get('/insertMessage-:body', (req: Request, res: Response) => {
     console.log(req.params)
@@ -25,8 +21,9 @@ router.get('/idToString', (req: Request, res: Response) => {
     queryConfit(appPool, test)
 })
 
-createRoute(router, '/test', (getChannel(appPool, selectString('message'))) )
-// createRoute(router, '/test', () => getChannel(appPool, selectString('message')) )
+// createRoute(router, '/getChannel', )
+// createRoute(router, '/getMessage', 'message')
+
 
 
 export const DataController: Router = router
