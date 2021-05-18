@@ -18,6 +18,7 @@ import { appPool, emitter } from '../app'
 
 export const createRoute  = (router: Router, route: string, channel: Channel) => {
     router.get(route, (req: Request, res: Response) => {
-        res.send(channel)
+        emitter.emit('event')
+        emitter.once('workDone', (data: Channel) => res.send(data))
     })
 }

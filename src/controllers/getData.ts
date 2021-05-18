@@ -1,9 +1,10 @@
 import { Router, Request, Response } from 'express' 
 import { getChannel, insertMessage, queryConfit } from '../database/pg'
-import { appPool, emitter } from '../app'
+import { appPool, emitter, pv } from '../app'
 import { insertString, selectString, test, } from '../queries/queries'
 import { Channel, IData, Test } from '../types/functions'
 import { createRoute } from '../routes/routeDefinition'
+import { getChannelRepository } from '../repository/channelRepository'
 
 const router: Router = Router()
 
@@ -11,6 +12,10 @@ const message = {
     user : 'will',
     body : 'i am test'
 }
+
+router.get('/test', async (req, res) => {
+    res.send()
+})
 
 router.get('/insertMessage-:body', (req: Request, res: Response) => {
     console.log(req.params)

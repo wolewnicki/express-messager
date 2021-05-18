@@ -45,3 +45,10 @@ const getEmitterVal = (callback: any): any => {
 emitter.emit('test', {id: 1, created_by: 'test', created_date: '2021-05-04', description: 'test'})
 const test = getEmitterVal((x: any) => x)
 console.log(test)
+
+const p = appPool.query("SELECT * FROM channel")
+
+export const pv = async () => await p.then((res: QueryResult<Channel>) => res.rows)
+const foo = async () => 1234;
+const bar = foo()
+bar.then(x => console.log(x))
