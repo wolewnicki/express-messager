@@ -1,4 +1,4 @@
-import { Pool, QueryConfig } from "pg";
+import { Pool, QueryConfig, QueryResult } from "pg";
 
 
 export type PoolString = (pool: Pool, string: QueryConfig) => void
@@ -22,9 +22,12 @@ export type Channel = {
     description : string
 }
 
-export type IData = {
-    getData : () => Channel
-}
+export type PGPromise<T> = Promise<QueryResult<T>>
 
 export type Test = () => Channel
+
+export type ChannelRepository = {
+    getChannel() : Promise<Channel[]>
+}
+
 

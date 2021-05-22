@@ -1,10 +1,10 @@
 import { Router, Request, Response } from 'express' 
-import { getChannel, insertMessage, queryConfit } from '../database/pg'
+import { getChannelPg, insertMessage, queryConfit } from '../database/pg'
 import { appPool, emitter, pv } from '../app'
 import { insertString, selectString, test, } from '../queries/queries'
-import { Channel, IData, Test } from '../types/functions'
+import { Channel, ChannelRepository, Test } from '../types/functions'
 import { createRoute } from '../routes/routeDefinition'
-import { getChannelRepository } from '../repository/channelRepository'
+import { makeRepository } from '../repository/channelRepository'
 
 const router: Router = Router()
 
@@ -13,9 +13,17 @@ const message = {
     body : 'i am test'
 }
 
-router.get('/test', async (req, res) => {
-    res.send()
-})
+// const localPool = appPool
+// const makeRoute = (router: Router, route: string, channelPromise: Promise<Channel[]> ) => {
+//     router.get(route, async (req, res) => {
+//         const result = await channelPromise.then(res => res)
+//         res.send(result)
+//     })
+// }
+
+// const chanRepo = makeRepository(getChannelPg(localPool, selectString('channel')))
+// makeRoute(router, '/getChannel', chanRepo.getChannel())
+
 
 router.get('/insertMessage-:body', (req: Request, res: Response) => {
     console.log(req.params)

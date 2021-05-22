@@ -1,17 +1,29 @@
-import express, { Request, Response } from 'express'
+import express, { Request, Response, Router } from 'express'
 import { Pool, QueryResult } from 'pg'
 import { DataController } from './controllers/getData'
 import cors from 'cors'
 import events from 'events'
-import { getChannel } from './database/pg'
+import { getChannelPg } from './database/pg'
 import { selectString } from './queries/queries'
-import { Channel } from './types/functions'
+import { Channel, ChannelRepository } from './types/functions'
+import { makeRepository } from './repository/channelRepository'
 require('dotenv').config()
 
 const app: express.Application = express()
 const port: number = 3000
 export const emitter = new events.EventEmitter()
 export const appPool: Pool = new Pool()
+
+export const getChannelRepository = makeRepository(getChannelPg(appPool, selectString('channel')))
+
+const makeRoute = (app: express.Application, route: string, channelPromise: Promise<Channel[]> ) => {
+    app.get(route, async (req, res) => {
+        const result = await channelPromise.then(res => res)
+        res.send(result)
+    })
+}
+
+makeRoute(app, '/test', getChannelRepository.getChannel())
 
 app.use(cors())
 
@@ -24,9 +36,6 @@ app.listen(port, ()  => {
 
 app.use('/v1', DataController)
 
-const selectBuilder = (table: string) => {
-    getChannel(appPool, selectString(table))
-}
 
 const chan = (chan: Channel) => {
     return chan

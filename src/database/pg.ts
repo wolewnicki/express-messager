@@ -8,8 +8,13 @@ import { Channel } from '../types/functions'
 //         console.log(selectString.values)
 // })}
 
-export const getChannel = (pool: Pool, selectString: QueryConfig): void => {
-    queryPool(pool, selectString)
+// export const getChannel = (pool: Pool, selectString: QueryConfig): void => {
+//     queryPool(pool, selectString)
+// }
+
+export const getChannelPg = (pool: Pool, string: QueryConfig) => {
+    const p = pool.query<Channel>(string)
+    return p
 }
 
 export const insertMessage = (pool: Pool, insertString: QueryConfig ) => {
