@@ -1,10 +1,10 @@
 import { Router, Request, Response } from 'express' 
 import { getChannelPg, insertMessage, queryConfit } from '../database/pg'
-import { appPool, emitter, pv } from '../app'
-import { insertString, selectString, test, } from '../queries/queries'
+import { insertString, selectString, test, } from '../database/dbQueries'
+import { channelRepo } from '../repository/channelRepository'
 import { Channel, ChannelRepository, Test } from '../types/functions'
-import { createRoute } from '../routes/routeDefinition'
-import { makeRepository } from '../repository/channelRepository'
+import { dbContext } from '../database/dbContext'
+import { emitter } from '../emitters/appEmitter'
 
 const router: Router = Router()
 
@@ -13,25 +13,27 @@ const message = {
     body : 'i am test'
 }
 
-// const localPool = appPool
-// const makeRoute = (router: Router, route: string, channelPromise: Promise<Channel[]> ) => {
-//     router.get(route, async (req, res) => {
-//         const result = await channelPromise.then(res => res)
-//         res.send(result)
-//     })
-// }
 
-// const chanRepo = makeRepository(getChannelPg(localPool, selectString('channel')))
-// makeRoute(router, '/getChannel', chanRepo.getChannel())
+const makeRoute = (router: Router, route: string, channelPromise: Promise<Channel[]> ) => {
+    router.get(route, async (req, res) => {
+        const result = await channelPromise.then(res => res)
+        res.send(result)
+    })
+}
 
+makeRoute(router, '/getChannel', channelRepo.getChannel())
+
+router.post('/test', (req, res) => {
+    emitter.emit('test', req.body)
+})
 
 router.get('/insertMessage-:body', (req: Request, res: Response) => {
     console.log(req.params)
-    insertMessage(appPool, insertString(`${req.params.body}`))
+    insertMessage(dbContext, insertString(`${req.params.body}`))
 }) 
 
 router.get('/idToString', (req: Request, res: Response) => {
-    queryConfit(appPool, test)
+    queryConfit(dbContext, test)
 })
 
 // createRoute(router, '/getChannel', )

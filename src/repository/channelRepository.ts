@@ -1,10 +1,11 @@
 import { Pool } from "pg";
-import { appPool } from "../app";
-import { selectString } from "../queries/queries";
+import { dbContext } from "../database/dbContext";
+import { getChannelPg } from "../database/pg";
+import { selectString } from "../database/dbQueries";
 import { Channel, ChannelRepository, PGPromise } from "../types/functions";
 
 
-export const makeRepository = (channelPromise: PGPromise<Channel>): ChannelRepository => {
+const makeRepository = (channelPromise: PGPromise<Channel>): ChannelRepository => {
     return {
         async getChannel() {
 
@@ -14,4 +15,5 @@ export const makeRepository = (channelPromise: PGPromise<Channel>): ChannelRepos
     }
 }
 
+export const channelRepo = makeRepository(getChannelPg(dbContext, selectString('channel')))
 

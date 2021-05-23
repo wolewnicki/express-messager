@@ -1,8 +1,5 @@
 import { Pool, QueryConfig, QueryResult } from "pg";
 
-
-export type PoolString = (pool: Pool, string: QueryConfig) => void
-
 export type Unit<A> = 
 {
     orgType : A
