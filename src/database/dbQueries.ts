@@ -6,8 +6,17 @@ export const selectString = (table: string): QueryConfig => {
     return {
     text:
         `SELECT * FROM ${table}`,
+    }
 }
-}
+
+export const queryBulder = (updates: any, args: {text: string}[]): QueryConfig => {
+    let combinedText = ``
+    args.map(x => combinedText = combinedText + x.text)
+    return {
+        text: combinedText,
+        values: [...updates]
+    }
+} 
 
 export const insertString = <T> ({orgType}: Entity<T>, text: {text : string}): QueryConfig => {
     const props = getObjProps(orgType)
@@ -29,6 +38,21 @@ export const messageInsert = {
     )`
 }
 
+export const selectChannel = {
+    text: 
+    `
+        SELECT * FROM channel
+    `
+}
+
+export const whereId = {
+    text:
+    `
+        WHERE id = $1
+    `
+}
+
+// console.log(selectChannel.text + whereId.text)
 
 
 export const test: QueryConfig = {

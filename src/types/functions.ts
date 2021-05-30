@@ -1,4 +1,4 @@
-import { Pool, QueryConfig, QueryResult } from "pg";
+import { QueryResult } from "pg";
 
 export type Unit<A> = 
 {
@@ -37,18 +37,13 @@ export type Message = {
 
 export type PGPromise<T> = Promise<QueryResult<T>>
 
-export type Test = () => Channel
-
 export type ChannelRepository = {
     getChannel() : Promise<Channel[]>
 }
 
 export type Repository<T> = {
     getModel(): Promise<Model<T>[]>
-    sendModel(model: Model<T>): void
+    sendModel(model: Model<T>): PGPromise<T> 
 }
 
-export type Body = {
-    body: string
-}
 

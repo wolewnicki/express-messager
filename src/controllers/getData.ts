@@ -7,12 +7,17 @@ const router: Router = Router()
 
 const makeRoute = <T> (router: Router, route: string, {getModel}: Repository<T> ) => {
     router.get(route, async (req, res) => {
-        res.send(await getModel())
+            res.send(await getModel())
     })
 }
 
-router.get('/test5', async(req, res) => {
-    res.send('test 123')
+router.get('/channel/:id?', async (req, res) => {
+    const id = req.params.id
+    if (id) {
+        res.send(req.params.id)
+    } else {
+        res.send(await channelRepository.getModel())
+    }
 })
 
 makeRoute(router, '/getChannel', channelRepository)
