@@ -11,14 +11,15 @@ const port = 3000
 app.use(cors())
 app.use(express.urlencoded({extended: true}))
 app.use(express.json())
+app.use(Router())
+app.use('/v1', DataController)
 
 
-
-app.get('/', (req: Request, res: Response) => {
+app.get('/1', (req: Request, res: Response) => {
     res.status(200).json({message: 'first express api!!'})
 })
 app.listen(port, ()  => {
     console.log(`server is listening on ${port}`)
 })
 
-app.use('/v1', DataController)
+
