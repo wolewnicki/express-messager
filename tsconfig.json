@@ -2,7 +2,7 @@
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig.json to read more about this file */
 
-    "target": "es5",                                
+    "target": "es6",                                
     "module": "commonjs",                           
     "lib": ["ES2015"],                 
     "sourceMap": true,                           
@@ -11,6 +11,7 @@
     "esModuleInterop": true,                        
     "skipLibCheck": true,                           
     "forceConsistentCasingInFileNames": true,
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "strictPropertyInitialization": false
   }
 }

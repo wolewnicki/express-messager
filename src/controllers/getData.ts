@@ -1,17 +1,13 @@
 import { Router, Request, Response } from 'express' 
-import { getChannelPg, insertMessage, queryConfit } from '../database/pg'
-import { insertString, selectString, test, } from '../database/dbQueries'
-import { channelRepo } from '../repository/channelRepository'
-import { Channel, ChannelRepository, Test } from '../types/functions'
+import { insertMessage, queryConfit } from '../database/pg'
+import { insertString, test, } from '../database/dbQueries'
+// import { channelRepo } from '../repository/channelRepository'
+import { Body, Channel } from '../types/functions'
 import { dbContext } from '../database/dbContext'
-import { emitter } from '../emitters/appEmitter'
+import { sendMsg } from '../emitters/appEmitter'
+import { ParamsDictionary } from 'express-serve-static-core'
 
 const router: Router = Router()
-
-const message = {
-    user : 'will',
-    body : 'i am test'
-}
 
 
 const makeRoute = (router: Router, route: string, channelPromise: Promise<Channel[]> ) => {
@@ -21,10 +17,23 @@ const makeRoute = (router: Router, route: string, channelPromise: Promise<Channe
     })
 }
 
-makeRoute(router, '/getChannel', channelRepo.getChannel())
+// makeRoute(router, '/getChannel', channelRepo.getChannel())
 
-router.post('/test', (req, res) => {
-    emitter.emit('test', req.body)
+router.post('/test', async (req: Request<ParamsDictionary, any, Body>, res) => {
+
+    const controllerPromise = new Promise<string>( (resolve, rej) => {
+        const resolvefunc = async () => { 
+            sendMsg(req.body)
+            resolve('Resolved!')
+        }
+        resolvefunc()
+        .then(resu => res.send('passed'))
+        .catch((err) => {rej(err) 
+        res.send(`failed because: ${err}`)})
+        
+    })
+
+    await controllerPromise.then((resolve) => res.send(resolve), (rej) => {console.log(rej)})
 })
 
 router.get('/insertMessage-:body', (req: Request, res: Response) => {
@@ -35,10 +44,6 @@ router.get('/insertMessage-:body', (req: Request, res: Response) => {
 router.get('/idToString', (req: Request, res: Response) => {
     queryConfit(dbContext, test)
 })
-
-// createRoute(router, '/getChannel', )
-// createRoute(router, '/getMessage', 'message')
-
 
 
 export const DataController: Router = router

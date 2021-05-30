@@ -7,13 +7,18 @@ export type Unit<A> =
 }
 export type Named<A extends string> = { name : A }
 
+export type Id<A extends string> = {
+    id : number
+    name : A
+}
 
+export type Entity<T> = Unit<T> & Named<'entity'>
 
-export type ChannelEntity = Unit<Channel> & Named<'entity'>
+export type ChannelEntity = Entity<Channel>
 
 
 export type Channel = {
-    id : number
+    id : Id<'channel'>
     created_by : string
     created_date : Date
     description : string
@@ -26,5 +31,7 @@ export type Test = () => Channel
 export type ChannelRepository = {
     getChannel() : Promise<Channel[]>
 }
-
+export type Body = {
+    body: string
+}
 
