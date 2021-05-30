@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "tsc && node dist/app.js",
-    "test": "jasmine-ts \"spec/*.spec.ts\"",
+    "test": "jasmine-ts \"spec/*/*.spec.ts\"",
     "lint": "eslint . --ext .ts"
   },
   "keywords": [],

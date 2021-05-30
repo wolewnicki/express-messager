@@ -4,8 +4,8 @@ import { dbContext } from './dbContext'
 import { selectString } from './dbQueries'
 
 
-export const getChannelPg = (pool: Pool, string: QueryConfig) => {
-    const p = pool.query<Channel>(string)
+export const getChannelPg = <T> (pool: Pool, string: QueryConfig) => {
+    const p = pool.query<T>(string)
     return p
 }
 
@@ -21,11 +21,6 @@ export const getEntity = async <T> (promise: Promise<T[]> ) => {
         name: 'entity'
     }))
     return entities
-}
-
-export const getModel = async <T> (promise: Promise<Entity<T>[]>) => {
-    const res = await promise.then(res => res)
-    return res
 }
 
 getEntity(pullPGPromiseVal(getChannelPg(dbContext, selectString('channel')))).then(x => console.log(x))
