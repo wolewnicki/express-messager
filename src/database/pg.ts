@@ -34,7 +34,7 @@ export const makeDbProvider = (context: Pool) => {
 const dbProvier = makeDbProvider(dbContext)
 
 // getEntity(pullPGPromiseVal(getChannelPg(dbContext, selectString('channel')))).then(x => console.log(x))
-getEntity(pullPGPromiseVal(dbProvier.getPromise(selectChannel))).then(x => console.log(x))
+// getEntity(pullPGPromiseVal(dbProvier.getPromise(selectChannel))).then(x => console.log(x))
 
 getChannelPg(dbContext, queryBulder([2], [selectChannel, whereId]))
 .then(res => console.log(res.rows))
